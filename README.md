@@ -6,8 +6,6 @@ Proyecto para la asignatura Novas Arquitecturas e Paradigmas IoT do máster en I
 -	co2
 -	luz interior
 -	presencia
--	Voltaje
--	Corriente
 -	Botón para cambiar de modo ventilar-calefacción 
 -	Posición ventanas
 ## APIs empleadas
