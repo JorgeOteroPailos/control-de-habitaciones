@@ -1,0 +1,149 @@
+[
+    {
+        "id": "6dfa21c493e592d0",
+        "type": "tab",
+        "label": "Flujo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d22d7830c19dde91",
+        "type": "tab",
+        "label": "P1 - Sensores virtuales",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "brk_mosq",
+        "type": "mqtt-broker",
+        "name": "Mosquitto público",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "closeTopic": "",
+        "willTopic": ""
+    },
+    {
+        "id": "978adb30ed02be8a",
+        "type": "inject",
+        "z": "d22d7830c19dde91",
+        "name": "Cada 5 s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "6f079a27a2a53efc"
+            ]
+        ]
+    },
+    {
+        "id": "6f079a27a2a53efc",
+        "type": "function",
+        "z": "d22d7830c19dde91",
+        "name": "Simulador habitaciones",
+        "func": "// Simulador de sensores virtuales — Smart Room Climate (Grupo 3)\n// Genera un mensaje MQTT por habitación cada vez que el nodo inject dispara.\nconst PREFIJO = 'roomsenseg3';\nconst HABITACIONES = ['hab1', 'hab2', 'hab3'];\n\nconst r = (min, max) => Math.random() * (max - min) + min;\nconst lim = (v, min, max) => Math.min(max, Math.max(min, v));\n// Codespaces trabaja en UTC: calculamos la hora local de Galicia\nconst hora = parseInt(new Date().toLocaleString('en-GB', { timeZone: 'Europe/Madrid', hour: '2-digit', hour12: false }));\nconst deDia = hora >= 8 && hora < 20;\n\nconst estado = context.get('estado') || {};\n\nconst msgs = HABITACIONES.map(h => {\n    // Estado inicial de la habitación (solo la primera vez)\n    const s = estado[h] || { temperatura: r(18, 22), humedad: r(40, 60), co2: r(450, 700) };\n\n    // Evolución suave (random walk) para que los datos parezcan reales\n    s.presencia   = Math.random() < 0.6;                                       // PIR\n    s.temperatura = lim(s.temperatura + r(-0.2, 0.2), 15, 28);                 // SCD30\n    s.humedad     = lim(s.humedad + r(-1, 1), 30, 80);                         // SCD30\n    s.co2         = lim(s.co2 + (s.presencia ? r(5, 25) : r(-20, 0)), 400, 2000); // SCD30: sube con gente\n    s.gas         = lim(s.gas + r(-5, 5), 50, 500);                            // sensor de gases\n    s.luz         = Math.round(deDia ? r(300, 800) : r(0, 50));                // luz ambiental (lux)\n    estado[h] = s;\n\n    return {\n        topic: `${PREFIJO}/${h}/sensores`,\n        payload: {\n            habitacion: h,\n            timestamp: new Date().toISOString(),\n            temperatura: +s.temperatura.toFixed(1),   // ºC\n            humedad: +s.humedad.toFixed(1),           // %\n            co2: Math.round(s.co2),                   // ppm\n            luz: s.luz,                               // lux\n            presencia: s.presencia,                   // PIR\n            ventana_abierta: false,                   // sensor Hall\n            modo: 'AUTO'                              // pulsador\n        }\n    };\n});\n\ncontext.set('estado', estado);\nreturn [msgs];   // envía los N mensajes, uno tras otro, por la salida 1\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "34975b0525338fd5",
+                "e596e025071f7c9b"
+            ]
+        ]
+    },
+    {
+        "id": "34975b0525338fd5",
+        "type": "mqtt out",
+        "z": "d22d7830c19dde91",
+        "name": "Publicar sensores",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "brk_mosq",
+        "x": 590,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e596e025071f7c9b",
+        "type": "debug",
+        "z": "d22d7830c19dde91",
+        "name": "Enviado",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 570,
+        "y": 130,
+        "wires": []
+    },
+    {
+        "id": "49dbe9d4b756963c",
+        "type": "mqtt in",
+        "z": "d22d7830c19dde91",
+        "name": "Recibir sensores",
+        "topic": "roomsenseg3/+/sensores",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "brk_mosq",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 220,
+        "wires": [
+            [
+                "5d6a927272d1f870"
+            ]
+        ]
+    },
+    {
+        "id": "5d6a927272d1f870",
+        "type": "debug",
+        "z": "d22d7830c19dde91",
+        "name": "Datos recibidos",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 380,
+        "y": 220,
+        "wires": []
+    }
+]
