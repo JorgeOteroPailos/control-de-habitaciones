@@ -2,39 +2,50 @@
 
 ## Objetivo
 
-Este documento establece una primera distribución de las áreas del proyecto **Control de habitaciones** entre Jorge, Federico, Mohamed, Manuel y George. La propuesta respeta las preferencias iniciales —Federico más centrado en hardware y Jorge y Manuel en frontend— y reparte las áreas de mayor carga entre varias personas.
+Este documento establece la distribución final de las áreas del proyecto **Control de habitaciones** entre Jorge, Federico, Mohamed, Manuel y George.
 
-La asignación indica quién coordina cada área y quién la apoya; no crea silos. Las decisiones que afecten a interfaces entre componentes se acuerdan entre las personas implicadas.
+Cada persona tiene **cuatro roles**, ordenados del primero al cuarto según la importancia o carga estimada. Los roles con mayor carga están destacados como prioritarios; los demás se consideran apoyo o responsabilidades compartidas.
 
-## Reparto propuesto
+## Reparto de roles
 
-| Área | Responsable principal | Apoyo | Alcance |
-|---|---|---|---|
-| **Backend** | Mohamed | Jorge | Servicios, API, lógica de aplicación e integración con los datos del sistema. Jorge apoya especialmente en el contrato entre backend y frontend. |
-| **Frontend** | Jorge y Manuel (corresponsables) | Mohamed | Interfaz de usuario, vistas y comunicación con el backend. Jorge y Manuel comparten planificación y revisión; pueden repartirse pantallas o funcionalidades según avance el proyecto. |
-| **Firmware edge** | Mohamed | Federico | Lógica que se ejecuta en el dispositivo edge y comunicación con sensores, actuadores y backend. Mohamed coordina el software; Federico ayuda con las particularidades del hardware. |
-| **Hardware** | Federico | Mohamed | Selección y conexión de componentes, montaje, alimentación y comprobación del funcionamiento físico. Federico concentra aquí su dedicación principal. |
-| **Pruebas y calidad** | Manuel | George y el resto del equipo | Plan de pruebas, comprobaciones funcionales y registro de defectos. Cada responsable prueba también su componente; Manuel coordina la visión de conjunto y George ayuda a verificar los flujos integrados. |
-| **Gestión e integración** | George | Jorge | Seguimiento de tareas, acuerdos entre áreas, integración de componentes y coordinación de entregas. Jorge ayuda con las decisiones técnicas que afecten a la arquitectura. |
-| **Documentación** | George | Todos; Jorge revisa la parte técnica | Organización y mantenimiento de la documentación del proyecto. Cada persona redacta o actualiza la información de su área; George procura que quede integrada y consistente. |
+| Persona | 1.º — Mayor prioridad | 2.º | 3.º | 4.º — Menor prioridad |
+|---|---|---|---|---|
+| **Federico** | Hardware | Backend | Firmware edge | Pruebas y calidad |
+| **Manuel** | Frontend | Gestión e integración | Pruebas y calidad | Documentación |
+| **Jorge** | Gestión e integración | Frontend | Backend | Documentación |
+| **Mohamed** | Backend | Firmware edge | Hardware | Documentación |
+| **George** | Pruebas y calidad | Documentación | Gestión e integración | Frontend |
 
-## Por qué este reparto
+## Criterios del reparto
 
-- **Federico** tiene como foco principal el hardware, con apoyo acotado al firmware edge para asegurar que el software y los componentes físicos encajen.
-- **Jorge y Manuel** comparten frontend, como se propuso inicialmente. Para equilibrar la carga, Jorge también apoya el contrato con backend y Manuel coordina pruebas y calidad.
-- **Mohamed** asume el backend como área principal y comparte el trabajo de firmware con Federico, evitando concentrar ambas áreas de implementación en una sola persona.
-- **George** coordina integración y documentación, y colabora en las pruebas de extremo a extremo. Así se cubren las tareas transversales que suelen quedar sin responsable.
-- **La calidad es compartida**: tener una persona coordinadora no exime a cada responsable de probar su propio trabajo.
+- **Frontend:** principal responsabilidad compartida por Manuel y Jorge. Manuel lo sitúa como su rol número 1 y Jorge como su rol número 2.
+- **Hardware:** papel principal de Federico en su posición número 1, dado su peso y especialidad.
+- **Backend:** Mohamed lo mantiene como prioridad número 1; Federico ocupa el segundo puesto y Jorge el tercero para equilibrar la carga del área.
+- **Firmware edge:** carga técnica compartida entre Mohamed y Federico, sin convertirla en una responsabilidad exclusiva.
+- **Pruebas y calidad:** George coordina el área; Manuel y Federico aportan apoyo con diferente peso.
+- **Gestión e integración:** Jorge coordina el área y Manuel y George aportan apoyo transversal.
+- **Documentación:** George la coordina; el resto participa según su relación con cada componente.
+
+## Equipamiento de cargas
+
+Los roles se han ordenado considerando que hardware, backend, firmware y frontend son los roles más intensivos, seguidos de gestión, pruebas y calidad. Las responsabilidades están repartidas de forma que:
+
+- cada persona tenga exactamente cuatro roles;
+- Federico tenga **Hardware** primero y luego Backend;
+- Manuel tenga **Frontend** primero;
+- Jorge tenga **Frontend** segundo;
+- no haya una sola persona concentrando todas las responsabilidades más pesadas;
+- las áreas transversales se repartan entre varias personas.
 
 ## Forma de trabajo
 
 1. **Acordar interfaces antes de integrar.** Backend y frontend concretan API y formatos de datos; hardware y firmware acuerdan conexiones, señales y comportamiento esperado.
-2. **Trabajar por funcionalidades pequeñas.** Cuando una tarea cruza varias áreas, se nombra una persona responsable de coordinarla y se especifican las dependencias.
-3. **Revisar los cambios entre compañeros.** Siempre que sea posible, otra persona revisa cada cambio antes de integrarlo, priorizando las interfaces entre áreas.
-4. **Probar el flujo completo.** Además de pruebas por componente, el equipo comprueba los recorridos completos que conectan interfaz, backend y dispositivo.
-5. **Mantener la documentación al día.** Los cambios de arquitectura, configuración, conexiones o uso se documentan junto con la implementación.
-6. **Revisar el reparto periódicamente.** Si una fase carga demasiado a una persona, el equipo redistribuye tareas en la reunión de seguimiento, manteniendo claro quién coordina cada área.
+2. **Trabajar por funcionalidades pequeñas.** Cada tarea debe indicar su responsable principal y las personas que apoyan.
+3. **Revisar los cambios entre compañeros.** Otra persona debe revisar cambios relevantes, especialmente los que afectan a interfaces.
+4. **Probar el flujo completo.** Además de pruebas por componente, el equipo comprobará el recorrido completo entre interfaz, backend y dispositivo.
+5. **Mantener la documentación al día.** La documentación se actualizará junto con cambios de arquitectura, configuración, conexiones o uso.
+6. **Revisar el reparto periódicamente.** Si una fase concentra demasiada carga en una persona, el equipo podrá redistribuir tareas manteniendo claros los responsables principales.
 
 ## Revisión inicial
 
-Esta distribución es una propuesta de partida, no una asignación rígida. En la primera revisión del proyecto, el equipo debería confirmar las preferencias, estimar las tareas pendientes y ajustar el reparto según la carga real y la experiencia de cada integrante.
+Esta distribución es una propuesta de partida. En la primera revisión del proyecto, el equipo deberá confirmar preferencias, estimar el esfuerzo pendiente y ajustar las prioridades si el trabajo real requiere modificar el reparto.
