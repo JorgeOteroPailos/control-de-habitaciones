@@ -33,6 +33,16 @@
                 "label": "Habitación 3",
                 "value": "hab3",
                 "type": "str"
+            },
+            {
+                "label": "Ambiente 4 ( Pasillo)",
+                "value": "hab4",
+                "type": "str"
+            },
+            {
+                "label": "Ambiente 5 ( Terraza / Patio )",
+                "value": "hab5",
+                "type": "str"
             }
         ],
         "topic": "sel",
@@ -177,7 +187,7 @@
         "type": "function",
         "z": "tab_act_g",
         "name": "Enrutar MQTT",
-        "func": "const h = flow.get('hab_activa') || 'hab1';\nconst act = msg.topic;\nmsg.topic = `roomsenseg3/${h}/actuadores`;\nmsg.payload = { habitacion: h, actuador: act, valor: msg.payload };\nreturn msg;\n",
+        "func": "const h = flow.get('hab_activa') || 'hab1';\nlet act = msg.topic;\nlet val = msg.payload;\n\nif (act === 'auxiliar') {\n    if (h === 'hab5') {\n        act = 'toldo';\n        val = (val === 'ON') ? 'ABIERTO' : 'CERRADO';\n    } else {\n        act = 'extractor';\n    }\n}\n\nmsg.topic = `roomsenseg3/${h}/actuadores`;\nmsg.payload = { habitacion: h, actuador: act, valor: val };\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -223,7 +233,7 @@
         "rap": false,
         "inputs": 0,
         "x": 170,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "fn_fmt_a"
@@ -243,7 +253,7 @@
         "finalize": "",
         "libs": [],
         "x": 390,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "ui_txt_a"
@@ -255,16 +265,50 @@
         "type": "ui-text",
         "z": "tab_act_g",
         "group": "grp_act_g",
-        "order": 6,
+        "order": 7,
         "width": 6,
         "height": 1,
         "name": "Última Orden",
         "label": "Última orden MQTT:",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 620,
-        "y": 360,
+        "x": 630,
+        "y": 480,
         "wires": []
+    },
+    {
+        "id": "c749bc75846385cd",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "",
+        "label": "Extractor / Toldo",
+        "group": "grp_act_g",
+        "order": 6,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "decouple": false,
+        "topic": "auxiliar",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 140,
+        "y": 360,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
     },
     {
         "id": "grp_act_g",
@@ -376,7 +420,7 @@
         }
     },
     {
-        "id": "79b59a915f7fe28e",
+        "id": "779d93d15ab107b3",
         "type": "global-config",
         "env": [],
         "modules": {
