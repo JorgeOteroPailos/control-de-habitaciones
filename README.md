@@ -6,7 +6,7 @@ RoomSense es un sistema IoT que monitoriza varias habitaciones de un recinto. Mi
 
 ## Documentación
 
-En la [Wiki](https://github.com/JorgeOteroPailos/control-de-habitaciones/wiki) están los miembros y sus roles, los sensores y actuadores, las fuentes de datos externas y las prácticas.
+En la [Wiki](https://github.com/JorgeOteroPailos/control-de-habitaciones/wiki/Main-Wiki-Repo-RoomSense) están los miembros y sus roles, los sensores y actuadores, las fuentes de datos externas y las prácticas.
 
 ## Equipo
 
