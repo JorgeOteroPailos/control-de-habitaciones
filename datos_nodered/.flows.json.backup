@@ -1,13 +1,5 @@
 [
     {
-        "id": "6dfa21c493e592d0",
-        "type": "tab",
-        "label": "Flujo 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "255856d0d5ad7034",
         "type": "tab",
         "label": "P1 - Sensores virtuales",
@@ -25,6 +17,11 @@
         "id": "tab_act_g",
         "type": "tab",
         "label": "P3 Actuadores George"
+    },
+    {
+        "id": "tab_amb45_g",
+        "type": "tab",
+        "label": "P4 Ambientes 4-5 y SCADA"
     },
     {
         "id": "brk_mosq",
@@ -202,7 +199,7 @@
         "page": "f891abb8ae5c90ba",
         "width": "6",
         "height": "1",
-        "order": 6,
+        "order": 9,
         "showTitle": true,
         "className": "",
         "visible": "true",
@@ -245,6 +242,62 @@
         "groupType": "default",
         "keepLoaded": false,
         "tab": ""
+    },
+    {
+        "id": "brk_emqx_45",
+        "type": "mqtt-broker",
+        "name": "EMQX",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true
+    },
+    {
+        "id": "th_45",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        }
+    },
+    {
+        "id": "grp_amb4",
+        "type": "ui-group",
+        "name": "Ambiente 4 - Pasillo",
+        "page": "f891abb8ae5c90ba",
+        "width": "6",
+        "height": "1",
+        "order": 6,
+        "showTitle": true,
+        "visible": "true"
+    },
+    {
+        "id": "grp_amb5",
+        "type": "ui-group",
+        "name": "Ambiente 5 - Terraza Exterior",
+        "page": "f891abb8ae5c90ba",
+        "width": "6",
+        "height": "1",
+        "order": 7,
+        "showTitle": true,
+        "visible": "true"
+    },
+    {
+        "id": "grp_scada_45",
+        "type": "ui-group",
+        "name": "Sinóptico SCADA - Planta 5 Ambientes",
+        "page": "f891abb8ae5c90ba",
+        "width": "12",
+        "height": "1",
+        "order": 8,
+        "showTitle": true,
+        "visible": "true",
+        "disabled": false
     },
     {
         "id": "951798625cc6df50",
@@ -1712,8 +1765,13 @@
         "type": "function",
         "z": "tab_act_g",
         "name": "Enrutar MQTT",
-        "func": "const h = flow.get('hab_activa') || 'hab1';\nmsg.topic = `roomsenseg3/${h}/actuadores`;\nmsg.payload = { habitacion: h, actuador: msg.topic.split('/')[2], cmd: msg.topic, valor: msg.payload };\nreturn msg;",
+        "func": "const h = flow.get('hab_activa') || 'hab1';\nconst act = msg.topic;\nmsg.topic = `roomsenseg3/${h}/actuadores`;\nmsg.payload = { habitacion: h, actuador: act, valor: msg.payload };\nreturn msg;\n",
         "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 400,
         "y": 210,
         "wires": [
@@ -1754,8 +1812,13 @@
         "type": "function",
         "z": "tab_act_g",
         "name": "Formatear",
-        "func": "msg.payload = `${msg.payload.habitacion.toUpperCase()} -> ${JSON.stringify(msg.payload.valor)}`;\nreturn msg;",
+        "func": "msg.payload = `${msg.payload.habitacion.toUpperCase()} (${msg.payload.actuador}) -> ${msg.payload.valor}`;\nreturn msg;\n",
         "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 390,
         "y": 360,
         "wires": [
@@ -1779,5 +1842,318 @@
         "x": 620,
         "y": 360,
         "wires": []
+    },
+    {
+        "id": "inj_sim45",
+        "type": "inject",
+        "z": "tab_amb45_g",
+        "name": "Simular Amb 4 y 5 (5s)",
+        "repeat": "5",
+        "once": true,
+        "onceDelay": 1,
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "fn_sim_amb4",
+                "fn_sim_amb5"
+            ]
+        ]
+    },
+    {
+        "id": "fn_sim_amb4",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Simulador Pasillo (hab4)",
+        "func": "const pres = Math.random() > 0.6 ? 1 : 0;\nconst lux = pres ? Math.floor(250 + Math.random()*150) : Math.floor(20 + Math.random()*60);\nmsg.topic = 'roomsenseg3/hab4/sensores';\nmsg.payload = { presencia: pres, luz: lux };\nreturn msg;",
+        "outputs": 1,
+        "x": 410,
+        "y": 60,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "fn_sim_amb5",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Simulador Terraza (hab5)",
+        "func": "const uv = Number((Math.random()*5).toFixed(1));\nconst lluvia = Math.random() > 0.7 ? 'Lluvia' : 'Seco';\nmsg.topic = 'roomsenseg3/hab5/sensores';\nmsg.payload = { uv: uv, lluvia: lluvia };\nreturn msg;",
+        "outputs": 1,
+        "x": 410,
+        "y": 110,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_out_45",
+        "type": "mqtt out",
+        "z": "tab_amb45_g",
+        "name": "Publicar Amb 4 y 5",
+        "broker": "brk_emqx_45",
+        "x": 660,
+        "y": 85,
+        "wires": []
+    },
+    {
+        "id": "mqtt_in_45",
+        "type": "mqtt in",
+        "z": "tab_amb45_g",
+        "name": "Escuchar Todos Ambientes",
+        "topic": "roomsenseg3/+/+",
+        "datatype": "json",
+        "broker": "brk_emqx_45",
+        "inputs": 0,
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "fn_dist_45"
+            ]
+        ]
+    },
+    {
+        "id": "fn_dist_45",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Enrutar a UI y SCADA",
+        "func": "const p = msg.topic.split('/');\nconst h = p[1];\nconst tipo = p[2];\nmsg.scada_hab = h;\nmsg.scada_tipo = tipo;\nlet m4 = null, m5 = null;\nif (h === 'hab4' && tipo === 'sensores') m4 = { payload: `Presencia: ${msg.payload.presencia ? 'SÍ' : 'NO'} · Luz: ${msg.payload.luz} lx` };\nif (h === 'hab5' && tipo === 'sensores') m5 = { payload: `Estado: ${msg.payload.lluvia} · Índice UV: ${msg.payload.uv}` };\nreturn [msg, m4, m5];",
+        "outputs": 3,
+        "x": 410,
+        "y": 200,
+        "wires": [
+            [
+                "ui_scada_45"
+            ],
+            [
+                "ui_txt_amb4"
+            ],
+            [
+                "ui_txt_amb5"
+            ]
+        ]
+    },
+    {
+        "id": "ui_txt_amb4",
+        "type": "ui-text",
+        "z": "tab_amb45_g",
+        "group": "grp_amb4",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "Sensores Pasillo",
+        "label": "Sensores Pasillo:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 670,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ui_sw_luz4",
+        "type": "ui-switch",
+        "z": "tab_amb45_g",
+        "name": "Luz Pasillo",
+        "label": "Luz Pasillo",
+        "group": "grp_amb4",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "topic": "roomsenseg3/hab4/actuadores",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "fn_act_4"
+            ]
+        ]
+    },
+    {
+        "id": "fn_act_4",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Cmd Luz Pasillo",
+        "func": "msg.payload = { habitacion: 'hab4', actuador: 'luz', valor: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 360,
+        "y": 300,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "ui_sw_ext4",
+        "type": "ui-switch",
+        "z": "tab_amb45_g",
+        "name": "Extractor Pasillo",
+        "label": "Extractor Aire",
+        "group": "grp_amb4",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "topic": "roomsenseg3/hab4/actuadores",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 150,
+        "y": 350,
+        "wires": [
+            [
+                "fn_act_4b"
+            ]
+        ]
+    },
+    {
+        "id": "fn_act_4b",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Cmd Extractor",
+        "func": "msg.payload = { habitacion: 'hab4', actuador: 'extractor', valor: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 360,
+        "y": 350,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "ui_txt_amb5",
+        "type": "ui-text",
+        "z": "tab_amb45_g",
+        "group": "grp_amb5",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "Sensores Terraza",
+        "label": "Sensores Terraza:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 670,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ui_sw_luz5",
+        "type": "ui-switch",
+        "z": "tab_amb45_g",
+        "name": "Luz Terraza",
+        "label": "Luz Exterior",
+        "group": "grp_amb5",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "topic": "roomsenseg3/hab5/actuadores",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 140,
+        "y": 410,
+        "wires": [
+            [
+                "fn_act_5"
+            ]
+        ]
+    },
+    {
+        "id": "fn_act_5",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Cmd Luz Terraza",
+        "func": "msg.payload = { habitacion: 'hab5', actuador: 'luz', valor: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 360,
+        "y": 410,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "ui_sw_toldo5",
+        "type": "ui-switch",
+        "z": "tab_amb45_g",
+        "name": "Toldo Terraza",
+        "label": "Toldo Motorizado",
+        "group": "grp_amb5",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "topic": "roomsenseg3/hab5/actuadores",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ABIERTO",
+        "onvalueType": "str",
+        "offvalue": "CERRADO",
+        "offvalueType": "str",
+        "x": 150,
+        "y": 460,
+        "wires": [
+            [
+                "fn_act_5b"
+            ]
+        ]
+    },
+    {
+        "id": "fn_act_5b",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Cmd Toldo",
+        "func": "msg.payload = { habitacion: 'hab5', actuador: 'toldo', valor: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 350,
+        "y": 460,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "ui_scada_45",
+        "type": "ui-template",
+        "z": "tab_amb45_g",
+        "group": "grp_scada_45",
+        "page": "",
+        "ui": "",
+        "name": "Sinóptico Planta 5 Ambientes",
+        "order": 1,
+        "width": 12,
+        "height": "12",
+        "format": "<template>\n  <div style=\"background:#0f172a; padding:12px; border-radius:10px; color:#f8fafc; font-family:sans-serif; overflow:hidden;\">\n    <div style=\"display:flex; justify-content:space-between; margin-bottom:8px;\">\n      <strong style=\"color:#38bdf8;\">🏢 SINÓPTICO SCADA - 5 AMBIENTES INTEGRADOS</strong>\n      <span style=\"font-size:12px; color:#94a3b8;\">Clic sobre actuadores en el plano para operar</span>\n    </div>\n    <svg viewBox=\"0 0 820 430\" style=\"width:100%; height:410px; display:block; background:#1e293b; border-radius:8px; border:2px solid #334155;\">\n      <g v-for=\"(h, idx) in ['hab1', 'hab2', 'hab3']\" :key=\"h\" :transform=\"`translate(${20 + idx * 265}, 20)`\">\n        <rect x=\"0\" y=\"0\" width=\"250\" height=\"160\" rx=\"4\" :fill=\"amb[h].luz === 'ON' ? '#fef08a' : '#0f172a'\" :fill-opacity=\"amb[h].luz === 'ON' ? '0.18' : '0.85'\" stroke=\"#64748b\" stroke-width=\"3\"/>\n        <text x=\"12\" y=\"24\" fill=\"#f8fafc\" font-size=\"14\" font-weight=\"bold\">Ambiente {{ idx + 1 }}</text>\n        <text x=\"12\" y=\"46\" fill=\"#38bdf8\" font-size=\"13\">🌡️ {{ amb[h].temp }} °C  |  💧 {{ amb[h].hum }}%</text>\n        <text x=\"12\" y=\"66\" fill=\"#a7f3d0\" font-size=\"12\">☁️ CO₂: {{ amb[h].co2 }} ppm</text>\n        <g @click=\"toggle(h, 'ventana', amb[h].ventana === 'ABIERTA' ? 'CERRADA' : 'ABIERTA')\" style=\"cursor:pointer;\">\n          <rect x=\"85\" y=\"-4\" width=\"80\" height=\"8\" fill=\"#0284c7\"/>\n          <line x1=\"85\" y1=\"0\" :x2=\"amb[h].ventana === 'ABIERTA' ? 115 : 125\" :y2=\"amb[h].ventana === 'ABIERTA' ? -18 : 0\" stroke=\"#38bdf8\" stroke-width=\"4\"/>\n          <line x1=\"165\" y1=\"0\" :x2=\"amb[h].ventana === 'ABIERTA' ? 135 : 125\" :y2=\"amb[h].ventana === 'ABIERTA' ? -18 : 0\" stroke=\"#38bdf8\" stroke-width=\"4\"/>\n          <text x=\"125\" y=\"15\" text-anchor=\"middle\" fill=\"#7dd3fc\" font-size=\"10\">Ventana: {{ amb[h].ventana }}</text>\n        </g>\n        <g @click=\"toggle(h, 'luz', amb[h].luz === 'ON' ? 'OFF' : 'ON')\" transform=\"translate(55, 112)\" style=\"cursor:pointer;\">\n          <circle cx=\"0\" cy=\"0\" r=\"15\" :fill=\"amb[h].luz === 'ON' ? '#facc15' : '#475569'\"/>\n          <text x=\"0\" y=\"27\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"11\">💡 {{ amb[h].luz }}</text>\n        </g>\n        <g @click=\"toggle(h, 'calefaccion', amb[h].calefaccion === 'ON' ? 'OFF' : 'ON')\" transform=\"translate(165, 100)\" style=\"cursor:pointer;\">\n          <rect x=\"0\" y=\"0\" width=\"46\" height=\"20\" rx=\"3\" :fill=\"amb[h].calefaccion === 'ON' ? '#ef4444' : '#475569'\"/>\n          <text x=\"23\" y=\"39\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"11\">🔥 {{ amb[h].calefaccion }}</text>\n        </g>\n      </g>\n      <g transform=\"translate(20, 192)\">\n        <rect x=\"0\" y=\"0\" width=\"780\" height=\"85\" rx=\"4\" :fill=\"amb.hab4.luz === 'ON' ? '#fef08a' : '#0f172a'\" :fill-opacity=\"amb.hab4.luz === 'ON' ? '0.18' : '0.85'\" stroke=\"#64748b\" stroke-width=\"3\"/>\n        <text x=\"15\" y=\"26\" fill=\"#f8fafc\" font-size=\"14\" font-weight=\"bold\">Ambiente 4 · Pasillo Distribuidor</text>\n        <text x=\"15\" y=\"52\" fill=\"#cbd5e1\" font-size=\"13\">🚶 Presencia: {{ amb.hab4.presencia ? 'DETECTADA' : 'Libre' }}  |  ☀️ Luz int.: {{ amb.hab4.luz_lux }} lx</text>\n        <g @click=\"toggle('hab4', 'luz', amb.hab4.luz === 'ON' ? 'OFF' : 'ON')\" transform=\"translate(610, 35)\" style=\"cursor:pointer;\">\n          <circle cx=\"0\" cy=\"0\" r=\"14\" :fill=\"amb.hab4.luz === 'ON' ? '#facc15' : '#475569'\"/>\n          <text x=\"0\" y=\"27\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"11\">💡 {{ amb.hab4.luz }}</text>\n        </g>\n        <g @click=\"toggle('hab4', 'extractor', amb.hab4.extractor === 'ON' ? 'OFF' : 'ON')\" transform=\"translate(715, 35)\" style=\"cursor:pointer;\">\n          <circle cx=\"0\" cy=\"0\" r=\"14\" :fill=\"amb.hab4.extractor === 'ON' ? '#38bdf8' : '#475569'\"/>\n          <text x=\"0\" y=\"27\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"11\">🌀 {{ amb.hab4.extractor }}</text>\n        </g>\n      </g>\n      <g transform=\"translate(20, 290)\">\n        <rect x=\"0\" y=\"0\" width=\"780\" height=\"120\" rx=\"6\" fill=\"#0c4a6e\" fill-opacity=\"0.45\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"6,4\"/>\n        <text x=\"15\" y=\"26\" fill=\"#38bdf8\" font-size=\"14\" font-weight=\"bold\">Ambiente 5 · Terraza / Patio Exterior (Sensores + OpenWeatherMap)</text>\n        <text x=\"15\" y=\"54\" fill=\"#f8fafc\" font-size=\"13\">🌤️ Ext.: {{ ext.temp }} °C · {{ ext.hum }}% ({{ ext.detail }})</text>\n        <text x=\"15\" y=\"82\" fill=\"#bae6fd\" font-size=\"13\">🌧️ Sensor Terraza: {{ amb.hab5.lluvia }}  |  🔆 Índice UV: {{ amb.hab5.uv }}</text>\n        <g @click=\"toggle('hab5', 'luz', amb.hab5.luz === 'ON' ? 'OFF' : 'ON')\" transform=\"translate(610, 50)\" style=\"cursor:pointer;\">\n          <circle cx=\"0\" cy=\"0\" r=\"14\" :fill=\"amb.hab5.luz === 'ON' ? '#facc15' : '#475569'\"/>\n          <text x=\"0\" y=\"27\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"11\">💡 {{ amb.hab5.luz }}</text>\n        </g>\n        <g @click=\"toggle('hab5', 'toldo', amb.hab5.toldo === 'ABIERTO' ? 'CERRADO' : 'ABIERTO')\" transform=\"translate(690, 38)\" style=\"cursor:pointer;\">\n          <rect x=\"0\" y=\"0\" width=\"64\" height=\"22\" rx=\"4\" :fill=\"amb.hab5.toldo === 'ABIERTO' ? '#10b981' : '#64748b'\"/>\n          <text x=\"32\" y=\"39\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"11\">⛱️ {{ amb.hab5.toldo }}</text>\n        </g>\n      </g>\n    </svg>\n  </div>\n</template>\n<script>\nexport default {\n  data() {\n    return {\n      amb: {\n        hab1: { temp: '--', hum: '--', co2: '--', luz: 'OFF', ventana: 'CERRADA', calefaccion: 'OFF' },\n        hab2: { temp: '--', hum: '--', co2: '--', luz: 'OFF', ventana: 'CERRADA', calefaccion: 'OFF' },\n        hab3: { temp: '--', hum: '--', co2: '--', luz: 'OFF', ventana: 'CERRADA', calefaccion: 'OFF' },\n        hab4: { presencia: 0, luz_lux: 0, luz: 'OFF', extractor: 'OFF' },\n        hab5: { lluvia: 'Seco', uv: 0, luz: 'OFF', toldo: 'CERRADO' }\n      },\n      ext: { temp: '--', hum: '--', detail: 'Conectando...' }\n    }\n  },\n  methods: {\n    toggle(hab, act, val) {\n      this.amb[hab][act] = val;\n      this.send({ topic: `roomsenseg3/${hab}/actuadores`, payload: { habitacion: hab, actuador: act, valor: val } });\n    }\n  },\n  watch: {\n    msg() {\n      if (!this.msg || !this.msg.payload) return;\n      if (this.msg.payload.tempc !== undefined) {\n        this.ext = { temp: this.msg.payload.tempc, hum: this.msg.payload.humidity, detail: this.msg.payload.detail };\n        return;\n      }\n      const h = this.msg.scada_hab;\n      if (h && this.amb[h]) {\n        if (this.msg.scada_tipo === 'sensores') {\n          const p = this.msg.payload;\n          if (p.temp !== undefined) this.amb[h].temp = p.temp;\n          if (p.temperatura !== undefined) this.amb[h].temp = p.temperatura;\n          if (p.humedad !== undefined) this.amb[h].hum = p.humedad;\n          if (p.co2 !== undefined) this.amb[h].co2 = p.co2;\n          if (p.presencia !== undefined) this.amb[h].presencia = p.presencia;\n          if (p.luz !== undefined) this.amb[h].luz_lux = p.luz;\n          if (p.lluvia !== undefined) this.amb[h].lluvia = p.lluvia;\n          if (p.uv !== undefined) this.amb[h].uv = p.uv;\n        } else if (this.msg.scada_tipo === 'actuadores') {\n          const { actuador, valor } = this.msg.payload;\n          if (actuador && valor !== undefined) this.amb[h][actuador] = valor;\n        }\n      }\n    }\n  }\n}\n</script>\n",
+        "noerr": 0,
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 680,
+        "y": 150,
+        "wires": [
+            [
+                "mqtt_out_45"
+            ]
+        ]
     }
 ]
