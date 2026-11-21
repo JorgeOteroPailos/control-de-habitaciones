@@ -298,7 +298,7 @@
         "page": "f891abb8ae5c90ba",
         "width": "6",
         "height": "1",
-        "order": 9,
+        "order": 7,
         "showTitle": true,
         "className": "",
         "visible": "true",
@@ -384,7 +384,7 @@
         }
     },
     {
-        "id": "8f689bb871c0e9c1",
+        "id": "29727a6466d7297b",
         "type": "global-config",
         "env": [],
         "modules": {
