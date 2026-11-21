@@ -1,0 +1,369 @@
+[
+    {
+        "id": "tab_clima_george",
+        "type": "tab",
+        "label": "P2 Clima George",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "owm_node_george",
+        "type": "openweathermap in",
+        "z": "tab_clima_george",
+        "name": "Clima A Estrada",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "A Estrada",
+        "country": "ES",
+        "language": "es",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "chg_temp_george",
+                "chg_hum_george",
+                "chg_cond_george"
+            ]
+        ]
+    },
+    {
+        "id": "chg_temp_george",
+        "type": "change",
+        "z": "tab_clima_george",
+        "name": "Extraer tempc",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.tempc",
+                "tot": "msg"
+            }
+        ],
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "ui_gauge_temp_george"
+            ]
+        ]
+    },
+    {
+        "id": "chg_hum_george",
+        "type": "change",
+        "z": "tab_clima_george",
+        "name": "Extraer humidity",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.humidity",
+                "tot": "msg"
+            }
+        ],
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "ui_gauge_hum_george"
+            ]
+        ]
+    },
+    {
+        "id": "chg_cond_george",
+        "type": "change",
+        "z": "tab_clima_george",
+        "name": "Extraer detail",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.detail",
+                "tot": "msg"
+            }
+        ],
+        "x": 400,
+        "y": 240,
+        "wires": [
+            [
+                "ui_text_cond_george"
+            ]
+        ]
+    },
+    {
+        "id": "ui_gauge_temp_george",
+        "type": "ui-gauge",
+        "z": "tab_clima_george",
+        "name": "Temperatura Exterior",
+        "group": "grp_clima_george",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Temperatura Exterior",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-5",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "18",
+                "color": "#ffc800"
+            },
+            {
+                "from": "28",
+                "color": "#ea5353"
+            }
+        ],
+        "min": "-5",
+        "max": "40",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 660,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ui_gauge_hum_george",
+        "type": "ui-gauge",
+        "z": "tab_clima_george",
+        "name": "Humedad Exterior",
+        "group": "grp_clima_george",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Humedad Exterior",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "65",
+                "color": "#ffc800"
+            },
+            {
+                "from": "85",
+                "color": "#ea5353"
+            }
+        ],
+        "min": "0",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 650,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ui_text_cond_george",
+        "type": "ui-text",
+        "z": "tab_clima_george",
+        "group": "grp_clima_george",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "Condición Actual",
+        "label": "Condición actual:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "className": "",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "inj_hora_george",
+        "type": "inject",
+        "z": "tab_clima_george",
+        "name": "Cada 1s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "fn_hora_george"
+            ]
+        ]
+    },
+    {
+        "id": "fn_hora_george",
+        "type": "function",
+        "z": "tab_clima_george",
+        "name": "Hora España",
+        "func": "msg.payload = new Date().toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid' });\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 320,
+        "wires": [
+            [
+                "ui_text_hora_george"
+            ]
+        ]
+    },
+    {
+        "id": "ui_text_hora_george",
+        "type": "ui-text",
+        "z": "tab_clima_george",
+        "group": "grp_clima_george",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "Hora Local",
+        "label": "Hora Local:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "className": "",
+        "x": 630,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "grp_clima_george",
+        "type": "ui-group",
+        "name": "Exterior Clima A Estrada",
+        "page": "f891abb8ae5c90ba",
+        "width": "6",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "f891abb8ae5c90ba",
+        "type": "ui-page",
+        "name": "RoomSense",
+        "ui": "3769eeca07a3b7d9",
+        "path": "/roomsense",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "78d47ef0fbd03f55",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "tabs": [],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "3769eeca07a3b7d9",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "78d47ef0fbd03f55",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#fcfcfd",
+            "primary": "#0d74ce",
+            "bgPage": "#f9f9fb",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d9d9e0"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "5262298e383dba52",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-openweathermap": "1.0.1",
+            "@flowfuse/node-red-dashboard": "1.37.0"
+        }
+    }
+]
