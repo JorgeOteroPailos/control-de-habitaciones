@@ -10,12 +10,12 @@
         "id": "owm_node_george",
         "type": "openweathermap in",
         "z": "tab_clima_george",
-        "name": "Clima Santiago de Compostela",
+        "name": "Clima Santiago de Compostela.",
         "wtype": "current",
-        "lon": "",
-        "lat": "",
-        "city": "Santiago de Compostela",
-        "country": "ES",
+        "lon": "-8.5457",
+        "lat": "42.8805",
+        "city": "",
+        "country": "",
         "language": "es",
         "x": 150,
         "y": 180,
@@ -23,7 +23,8 @@
             [
                 "chg_temp_george",
                 "chg_hum_george",
-                "chg_cond_george"
+                "chg_cond_george",
+                "543e8d1c6dee6712"
             ]
         ]
     },
@@ -278,6 +279,19 @@
         "wires": []
     },
     {
+        "id": "543e8d1c6dee6712",
+        "type": "link out",
+        "z": "tab_clima_george",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "aaea6b86189d527c"
+        ],
+        "x": 395,
+        "y": 40,
+        "wires": []
+    },
+    {
         "id": "grp_clima_george",
         "type": "ui-group",
         "name": "Exterior Clima Santiago de Compostela",
@@ -370,7 +384,7 @@
         }
     },
     {
-        "id": "51bbcd82fd1fe95a",
+        "id": "8f689bb871c0e9c1",
         "type": "global-config",
         "env": [],
         "modules": {
