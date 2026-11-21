@@ -20,4 +20,4 @@ Contribución al panel **RoomSense** (Node-RED + Dashboard 2.0) para integrar da
 ## Uso
 1. Instalar `node-red-node-openweathermap` y `@flowfuse/node-red-dashboard`.
 2. Importar `flows_george.json`, `flows_actuadores_george.json` y `flows_scada_george.json` en Node-RED.
-3. Configurar tu **API Key** en el nodo `Clima A Estrada` y pulsar **Deploy**.
+3. Configurar tu **API Key** en el nodo `Clima Santiago de Compostela` y pulsar **Deploy**.
