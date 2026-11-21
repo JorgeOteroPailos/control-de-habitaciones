@@ -1,20 +1,13 @@
-# Control de habitaciones
-Proyecto para la asignatura Novas Arquitecturas e Paradigmas IoT do máster en IoT da USC 
-## Sensores empleados:
--	temp
--	humedad
--	co2
--	luz interior
--	presencia
--	Botón para cambiar de modo ventilar-calefacción 
--	Posición ventanas
-## APIs empleadas
--	Clima
--	Hora Local
-## Actuadores empleados
--	Luz de habitación
--	Ventanas
--	Calefacción
--	Pantalla led con resumen de datos
+# RoomSense – Control de habitaciones
 
-El proyecto pretende monitorear mediante los sensores mencionados anteriormente una serie de habitaciones de un registro y tomar decisiones acerca de su ventilación, calefacción o iluminación, además de mostrar por una pantalla los datos en tiempo real.
+Proyecto del **Grupo 3** para la asignatura *Novas Arquitecturas e Paradigmas IoT* del Máster en IoT de la USC.
+
+RoomSense es un sistema IoT que monitoriza varias habitaciones de un recinto. Mide temperatura, humedad, CO₂, luz y presencia, y decide de forma automática si ventilar, calefactar o encender la iluminación. Para decidir tiene en cuenta el clima exterior. Los datos se muestran en un dashboard y en una pantalla local.
+
+## Documentación
+
+En la [Wiki](https://github.com/JorgeOteroPailos/control-de-habitaciones/wiki) están los miembros y sus roles, los sensores y actuadores, las fuentes de datos externas y las prácticas.
+
+## Equipo
+
+Federico Mahy · Manuel Estévez · George Raynnier · Mohamed Said · Jorge Otero
