@@ -57,8 +57,8 @@
         "z": "tab_amb45_g",
         "name": "Publicar Amb 4 y 5",
         "broker": "brk_emqx_45",
-        "x": 660,
-        "y": 85,
+        "x": 750,
+        "y": 40,
         "wires": []
     },
     {
@@ -111,8 +111,8 @@
         "label": "Sensores Pasillo:",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 670,
-        "y": 200,
+        "x": 850,
+        "y": 220,
         "wires": []
     },
     {
@@ -207,8 +207,8 @@
         "label": "Sensores Terraza:",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 670,
-        "y": 240,
+        "x": 850,
+        "y": 300,
         "wires": []
     },
     {
@@ -309,11 +309,27 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 680,
-        "y": 150,
+        "x": 860,
+        "y": 140,
         "wires": [
             [
                 "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "aaea6b86189d527c",
+        "type": "link in",
+        "z": "tab_amb45_g",
+        "name": "link in 1",
+        "links": [
+            "543e8d1c6dee6712"
+        ],
+        "x": 645,
+        "y": 120,
+        "wires": [
+            [
+                "ui_scada_45"
             ]
         ]
     },
@@ -438,7 +454,7 @@
         }
     },
     {
-        "id": "9a049ec3d7609224",
+        "id": "68c8f00c26f2415e",
         "type": "global-config",
         "env": [],
         "modules": {
