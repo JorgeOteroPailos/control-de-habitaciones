@@ -197,7 +197,15 @@
         "type": "mqtt out",
         "z": "tab_act_g",
         "name": "Publicar Orden",
-        "broker": "brk_emqx_g",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "brk_mosq",
         "x": 630,
         "y": 210,
         "wires": []
@@ -208,8 +216,11 @@
         "z": "tab_act_g",
         "name": "Confirmación Nodo",
         "topic": "roomsenseg3/+/actuadores",
+        "qos": "2",
         "datatype": "json",
-        "broker": "brk_emqx_g",
+        "broker": "brk_mosq",
+        "nl": false,
+        "rap": false,
         "inputs": 0,
         "x": 170,
         "y": 360,
@@ -272,14 +283,21 @@
         "tab": ""
     },
     {
-        "id": "brk_emqx_g",
+        "id": "brk_mosq",
         "type": "mqtt-broker",
-        "name": "EMQX",
-        "broker": "broker.emqx.io",
+        "name": "Mosquitto público",
+        "broker": "test.mosquitto.org",
         "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
         "protocolVersion": "4",
         "keepalive": "60",
-        "cleansession": true
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "closeTopic": "",
+        "willTopic": ""
     },
     {
         "id": "f891abb8ae5c90ba",
@@ -358,7 +376,7 @@
         }
     },
     {
-        "id": "c7fce690a40a65f2",
+        "id": "79b59a915f7fe28e",
         "type": "global-config",
         "env": [],
         "modules": {
