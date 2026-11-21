@@ -4,7 +4,7 @@ Contribución al panel **RoomSense** (Node-RED + Dashboard 2.0) para integrar da
 
 ## Archivos incluidos
 * **`flows_george.json` (Clima y Hora Local):**
-  * **API OpenWeatherMap (`Santiago de Compostela, ES`):** Extrae temperatura (`tempc`), humedad (`humidity`) y estado climático (`detail`) hacia la tarjeta **`Exterior Clima ASantiago de Compostela`**.
+  * **API OpenWeatherMap (`Santiago de Compostela, ES`):** Extrae temperatura (`tempc`), humedad (`humidity`) y estado climático (`detail`) hacia la tarjeta **`Exterior Clima Santiago de Compostela`**.
   * **Hora Local (`Europe/Madrid`):** Actualización cada segundo mediante `inject` + `function`.
 * **`flows_actuadores_george.json` (Control de Actuadores MQTT):**
   * **Tarjeta `Control de Actuadores`:** Selector dinámico de ambiente con interruptores para **Luz**, **Ventana**, **Calefacción** y selector de **Modo** (`AUTO`, `VENTILAR`, `CALEFACCION`), publicando comandos en `roomsenseg3/{hab}/actuadores` sobre `broker.emqx.io` y confirmando la recepción en tiempo real.
