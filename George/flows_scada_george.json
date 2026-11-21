@@ -56,7 +56,15 @@
         "type": "mqtt out",
         "z": "tab_amb45_g",
         "name": "Publicar Amb 4 y 5",
-        "broker": "brk_emqx_45",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "brk_mosq",
         "x": 750,
         "y": 40,
         "wires": []
@@ -67,8 +75,11 @@
         "z": "tab_amb45_g",
         "name": "Escuchar Todos Ambientes",
         "topic": "roomsenseg3/+/+",
+        "qos": "2",
         "datatype": "json",
-        "broker": "brk_emqx_45",
+        "broker": "brk_mosq",
+        "nl": false,
+        "rap": false,
         "inputs": 0,
         "x": 160,
         "y": 200,
@@ -334,14 +345,21 @@
         ]
     },
     {
-        "id": "brk_emqx_45",
+        "id": "brk_mosq",
         "type": "mqtt-broker",
-        "name": "EMQX",
-        "broker": "broker.emqx.io",
+        "name": "Mosquitto público",
+        "broker": "test.mosquitto.org",
         "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
         "protocolVersion": "4",
         "keepalive": "60",
-        "cleansession": true
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "closeTopic": "",
+        "willTopic": ""
     },
     {
         "id": "grp_amb4",
@@ -454,7 +472,7 @@
         }
     },
     {
-        "id": "68c8f00c26f2415e",
+        "id": "98f264ef33090187",
         "type": "global-config",
         "env": [],
         "modules": {
