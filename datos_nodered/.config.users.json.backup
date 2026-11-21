@@ -30,15 +30,16 @@
                                 "context",
                                 "dashboard-2.0"
                             ],
-                            "height": 100,
+                            "height": 102,
                             "hidden": false,
-                            "active": "dashboard-2.0"
+                            "active": "config"
                         },
                         "bottom": {
                             "tabs": [
                                 "debug"
                             ],
-                            "hidden": true
+                            "hidden": false,
+                            "active": "debug"
                         }
                     },
                     "secondary": {
@@ -47,7 +48,7 @@
                             "tabs": [
                                 "explorer"
                             ],
-                            "height": 308,
+                            "height": 310,
                             "hidden": false,
                             "active": "explorer"
                         },

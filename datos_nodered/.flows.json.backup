@@ -1337,7 +1337,7 @@
         "id": "owm_node_george",
         "type": "openweathermap in",
         "z": "tab_clima_george",
-        "name": "Clima Santiago de Compostela",
+        "name": "Clima Santiago de Compostela.",
         "wtype": "current",
         "lon": "-8.5457",
         "lat": "42.8805",
@@ -1350,7 +1350,8 @@
             [
                 "chg_temp_george",
                 "chg_hum_george",
-                "chg_cond_george"
+                "chg_cond_george",
+                "543e8d1c6dee6712"
             ]
         ]
     },
@@ -1602,6 +1603,19 @@
         "className": "",
         "x": 630,
         "y": 320,
+        "wires": []
+    },
+    {
+        "id": "543e8d1c6dee6712",
+        "type": "link out",
+        "z": "tab_clima_george",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "aaea6b86189d527c"
+        ],
+        "x": 395,
+        "y": 40,
         "wires": []
     },
     {
@@ -2165,6 +2179,22 @@
         "wires": [
             [
                 "mqtt_out_45"
+            ]
+        ]
+    },
+    {
+        "id": "aaea6b86189d527c",
+        "type": "link in",
+        "z": "tab_amb45_g",
+        "name": "link in 1",
+        "links": [
+            "543e8d1c6dee6712"
+        ],
+        "x": 645,
+        "y": 120,
+        "wires": [
+            [
+                "ui_scada_45"
             ]
         ]
     }
