@@ -1,0 +1,368 @@
+[
+    {
+        "id": "tab_act_g",
+        "type": "tab",
+        "label": "P3 Actuadores George"
+    },
+    {
+        "id": "ui_drop_h",
+        "type": "ui-dropdown",
+        "z": "tab_act_g",
+        "group": "grp_act_g",
+        "name": "Selector Habitación",
+        "label": "Habitación:",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "Habitación 1",
+                "value": "hab1",
+                "type": "str"
+            },
+            {
+                "label": "Habitación 2",
+                "value": "hab2",
+                "type": "str"
+            },
+            {
+                "label": "Habitación 3",
+                "value": "hab3",
+                "type": "str"
+            }
+        ],
+        "topic": "sel",
+        "topicType": "str",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "fn_save_h"
+            ]
+        ]
+    },
+    {
+        "id": "fn_save_h",
+        "type": "function",
+        "z": "tab_act_g",
+        "name": "Guardar hab",
+        "func": "flow.set('hab_activa', msg.payload || 'hab1');\nreturn null;",
+        "outputs": 0,
+        "initialize": "flow.set('hab_activa', 'hab1');",
+        "x": 390,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "ui_sw_l",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "Luz",
+        "label": "Luz habitación",
+        "group": "grp_act_g",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "topic": "luz",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "ui_sw_v",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "Ventana",
+        "label": "Ventana",
+        "group": "grp_act_g",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "topic": "ventana",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ABIERTA",
+        "onvalueType": "str",
+        "offvalue": "CERRADA",
+        "offvalueType": "str",
+        "x": 140,
+        "y": 190,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "ui_sw_c",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "Calefacción",
+        "label": "Calefacción",
+        "group": "grp_act_g",
+        "order": 4,
+        "width": 3,
+        "height": 1,
+        "topic": "calefaccion",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "ui_drop_m",
+        "type": "ui-dropdown",
+        "z": "tab_act_g",
+        "group": "grp_act_g",
+        "name": "Modo",
+        "label": "Modo:",
+        "order": 5,
+        "width": 3,
+        "height": 1,
+        "options": [
+            {
+                "label": "AUTO",
+                "value": "AUTO",
+                "type": "str"
+            },
+            {
+                "label": "VENTILAR",
+                "value": "VENTILAR",
+                "type": "str"
+            },
+            {
+                "label": "CALEFACCIÓN",
+                "value": "CALEFACCION",
+                "type": "str"
+            }
+        ],
+        "topic": "modo",
+        "topicType": "str",
+        "x": 130,
+        "y": 290,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "fn_route_m",
+        "type": "function",
+        "z": "tab_act_g",
+        "name": "Enrutar MQTT",
+        "func": "const h = flow.get('hab_activa') || 'hab1';\nconst act = msg.topic;\nmsg.topic = `roomsenseg3/${h}/actuadores`;\nmsg.payload = { habitacion: h, actuador: act, valor: msg.payload };\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 210,
+        "wires": [
+            [
+                "mqtt_out_a"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_out_a",
+        "type": "mqtt out",
+        "z": "tab_act_g",
+        "name": "Publicar Orden",
+        "broker": "brk_emqx_g",
+        "x": 630,
+        "y": 210,
+        "wires": []
+    },
+    {
+        "id": "mqtt_in_a",
+        "type": "mqtt in",
+        "z": "tab_act_g",
+        "name": "Confirmación Nodo",
+        "topic": "roomsenseg3/+/actuadores",
+        "datatype": "json",
+        "broker": "brk_emqx_g",
+        "inputs": 0,
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "fn_fmt_a"
+            ]
+        ]
+    },
+    {
+        "id": "fn_fmt_a",
+        "type": "function",
+        "z": "tab_act_g",
+        "name": "Formatear",
+        "func": "msg.payload = `${msg.payload.habitacion.toUpperCase()} (${msg.payload.actuador}) -> ${msg.payload.valor}`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 360,
+        "wires": [
+            [
+                "ui_txt_a"
+            ]
+        ]
+    },
+    {
+        "id": "ui_txt_a",
+        "type": "ui-text",
+        "z": "tab_act_g",
+        "group": "grp_act_g",
+        "order": 6,
+        "width": 6,
+        "height": 1,
+        "name": "Última Orden",
+        "label": "Última orden MQTT:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 620,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "grp_act_g",
+        "type": "ui-group",
+        "name": "Control de Actuadores",
+        "page": "f891abb8ae5c90ba",
+        "width": "6",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "brk_emqx_g",
+        "type": "mqtt-broker",
+        "name": "EMQX",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true
+    },
+    {
+        "id": "f891abb8ae5c90ba",
+        "type": "ui-page",
+        "name": "RoomSense",
+        "ui": "3769eeca07a3b7d9",
+        "path": "/roomsense",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "78d47ef0fbd03f55",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "tabs": [],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "3769eeca07a3b7d9",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "78d47ef0fbd03f55",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#fcfcfd",
+            "primary": "#0d74ce",
+            "bgPage": "#f9f9fb",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d9d9e0"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "c7fce690a40a65f2",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.37.0"
+        }
+    }
+]
