@@ -13,9 +13,9 @@ Contribución al panel **RoomSense** (Node-RED + Dashboard 2.0) para integrar da
   * **Sinóptico SCADA Interactivo (`ui-template` SVG):** Plano de planta completo que refleja en tiempo real el estado de los 5 ambientes y permite operar directamente sobre sus actuadores mediante clics en el plano.
 
 ## Capturas
-<img width="1580" height="730" alt="imagen" src="https://github.com/user-attachments/assets/b216ad2b-86f1-48a4-afb2-ed38879de474" />
-<img width="3188" height="1006" alt="imagen" src="https://github.com/user-attachments/assets/005b9133-dc76-4d4c-a73e-a82f3e9535bf" />
-<img width="3166" height="1574" alt="imagen" src="https://github.com/user-attachments/assets/cd0f520d-45c5-4fb5-8de3-96dd2fb52cf7" />
+<img width="1584" height="736" alt="imagen" src="https://github.com/user-attachments/assets/4a540642-aec7-4abc-a5f9-84b5861b7f9f" />
+<img width="1588" height="734" alt="imagen" src="https://github.com/user-attachments/assets/69868880-f67f-437e-ae15-1126e9474f5a" />
+<img width="3166" height="1574" alt="imagen" src="https://github.com/user-attachments/assets/0ea6168b-5def-4f30-afa4-fb0ae3bb0423" />
 
 ## Uso
 1. Instalar `node-red-node-openweathermap` y `@flowfuse/node-red-dashboard`.
