@@ -2018,11 +2018,65 @@
         "links": [
             "543e8d1c6dee6712"
         ],
-        "x": 645,
-        "y": 120,
+        "x": 415,
+        "y": 320,
+        "wires": [
+            [
+                "2f9072c3fcecc002"
+            ]
+        ]
+    },
+    {
+        "id": "2f9072c3fcecc002",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Guardar Clima",
+        "func": "if (msg.payload && msg.payload.tempc !== undefined) {\n    flow.set('ultimo_clima', msg.payload);\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 320,
         "wires": [
             [
                 "ui_scada_45"
+            ]
+        ]
+    },
+    {
+        "id": "9060bf59bbd1e03f",
+        "type": "function",
+        "z": "tab_amb45_g",
+        "name": "Recuperar Clima",
+        "func": "const c = flow.get('ultimo_clima');\nif (c) {\n    return { payload: c };\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 420,
+        "wires": [
+            [
+                "ui_scada_45"
+            ]
+        ]
+    },
+    {
+        "id": "2118c364af2898be",
+        "type": "ui-event",
+        "z": "tab_amb45_g",
+        "ui": "3769eeca07a3b7d9",
+        "name": "",
+        "x": 390,
+        "y": 420,
+        "wires": [
+            [
+                "9060bf59bbd1e03f"
             ]
         ]
     }

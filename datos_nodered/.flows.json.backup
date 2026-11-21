@@ -1295,7 +1295,7 @@
         "id": "owm_node_george",
         "type": "openweathermap in",
         "z": "tab_clima_george",
-        "name": "Clima Santiago de Compostela",
+        "name": "Clima Santiago de Compostela.",
         "wtype": "current",
         "lon": "-8.5457",
         "lat": "42.8805",
