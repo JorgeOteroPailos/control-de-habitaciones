@@ -1,17 +1,20 @@
-# Módulo Clima y Hora Local (`flows_george.json`)
+# Módulos Clima, Hora Local y Control de Actuadores
 
-Integración de datos meteorológicos exteriores y referencia horaria en el panel **RoomSense** (Node-RED + Dashboard 2.0).
+Contribución al panel **RoomSense** (Node-RED + Dashboard 2.0) para integrar datos meteorológicos exteriores, referencia horaria y control remoto bidireccional por MQTT.
 
-## Componentes del flujo
-* **API OpenWeatherMap (`A Estrada, ES`):** Consulta y extrae temperatura exterior (`tempc`), humedad (`humidity`) y estado climático (`detail`) mediante nodos `change`.
-* **Hora Local (`Europe/Madrid`):** Actualización cada segundo con `inject` + `function`.
-* **Dashboard 2.0:** Tarjeta **`Exterior Clima A Estrada`** integrada en la página principal `RoomSense` con dos galgas (`ui-gauge`) y dos indicadores de texto (`ui-text`).
+## Archivos incluidos
+* **`flows_george.json` (Clima y Hora Local):**
+  * **API OpenWeatherMap (`A Estrada, ES`):** Extrae temperatura (`tempc`), humedad (`humidity`) y estado climático (`detail`) hacia la tarjeta **`Exterior Clima A Estrada`**.
+  * **Hora Local (`Europe/Madrid`):** Actualización cada segundo mediante `inject` + `function`.
+* **`flows_actuadores_george.json` (Control de Actuadores MQTT):**
+  * **Tarjeta `Control de Actuadores`:** Selector dinámico de habitación (`hab1`, `hab2`, `hab3`) con interruptores para **Luz**, **Ventana**, **Calefacción** y selector de **Modo** (`AUTO`, `VENTILAR`, `CALEFACCION`).
+  * **Comunicación bidireccional:** Publica comandos en `roomsenseg3/{hab}/actuadores` sobre `broker.emqx.io` y muestra en tiempo real la confirmación recibida desde los nodos.
 
 ## Captura
-<img width="1574" height="726" alt="imagen" src="https://github.com/user-attachments/assets/bd0af867-76c3-48ff-9bad-70fad4531c24" />
+<img width="3200" height="760" alt="imagen" src="https://github.com/user-attachments/assets/f4adbbe1-733a-48ce-a8fe-45131738c5b1" />
 
 
 ## Uso
 1. Instalar `node-red-node-openweathermap` y `@flowfuse/node-red-dashboard`.
-2. Importar `flows_george.json` en Node-RED.
-3. Añadir tu **API Key** en el nodo `Clima A Estrada` y pulsar **Deploy**.
+2. Importar `flows_george.json` y `flows_actuadores_george.json` en Node-RED.
+3. Configurar tu **API Key** en el nodo `Clima A Estrada` y pulsar **Deploy**.
