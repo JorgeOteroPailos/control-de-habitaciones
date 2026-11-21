@@ -15,6 +15,18 @@
         "info": ""
     },
     {
+        "id": "tab_clima_george",
+        "type": "tab",
+        "label": "P2 Clima George",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "tab_act_g",
+        "type": "tab",
+        "label": "P3 Actuadores George"
+    },
+    {
         "id": "brk_mosq",
         "type": "mqtt-broker",
         "name": "Mosquitto público",
@@ -71,40 +83,40 @@
         }
     },
     {
-        "id": "8da862ef109222a2",
+        "id": "f891abb8ae5c90ba",
         "type": "ui-page",
-        "name": "Page 1",
+        "name": "RoomSense",
         "ui": "3769eeca07a3b7d9",
-        "path": "/page1",
+        "path": "/roomsense",
         "icon": "home",
         "layout": "grid",
         "theme": "78d47ef0fbd03f55",
         "breakpoints": [
             {
                 "name": "Default",
-                "px": 0,
-                "cols": 3
+                "px": "0",
+                "cols": "3"
             },
             {
                 "name": "Tablet",
-                "px": 576,
-                "cols": 6
+                "px": "576",
+                "cols": "6"
             },
             {
                 "name": "Small Desktop",
-                "px": 768,
-                "cols": 9
+                "px": "768",
+                "cols": "9"
             },
             {
                 "name": "Desktop",
-                "px": 1024,
-                "cols": 12
+                "px": "1024",
+                "cols": "12"
             }
         ],
         "tabs": [],
-        "order": 2,
+        "order": 1,
         "className": "",
-        "visible": false,
+        "visible": "true",
         "disabled": "false"
     },
     {
@@ -172,41 +184,67 @@
         "tab": ""
     },
     {
-        "id": "f891abb8ae5c90ba",
-        "type": "ui-page",
-        "name": "RoomSense",
-        "ui": "3769eeca07a3b7d9",
-        "path": "/roomsense",
-        "icon": "home",
-        "layout": "grid",
-        "theme": "78d47ef0fbd03f55",
-        "breakpoints": [
-            {
-                "name": "Default",
-                "px": "0",
-                "cols": "3"
-            },
-            {
-                "name": "Tablet",
-                "px": "576",
-                "cols": "6"
-            },
-            {
-                "name": "Small Desktop",
-                "px": "768",
-                "cols": "9"
-            },
-            {
-                "name": "Desktop",
-                "px": "1024",
-                "cols": "12"
-            }
-        ],
-        "tabs": [],
-        "order": 1,
+        "id": "theme_george",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        }
+    },
+    {
+        "id": "grp_clima_george",
+        "type": "ui-group",
+        "name": "Exterior Clima A Estrada",
+        "page": "f891abb8ae5c90ba",
+        "width": "6",
+        "height": "1",
+        "order": 6,
+        "showTitle": true,
         "className": "",
         "visible": "true",
         "disabled": "false"
+    },
+    {
+        "id": "brk_emqx_g",
+        "type": "mqtt-broker",
+        "name": "EMQX",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true
+    },
+    {
+        "id": "th_act",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        }
+    },
+    {
+        "id": "grp_act_g",
+        "type": "ui-group",
+        "name": "Control de Actuadores",
+        "page": "f891abb8ae5c90ba",
+        "width": "6",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
     },
     {
         "id": "951798625cc6df50",
@@ -1238,5 +1276,518 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "owm_node_george",
+        "type": "openweathermap in",
+        "z": "tab_clima_george",
+        "name": "Clima A Estrada",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "A Estrada",
+        "country": "ES",
+        "language": "es",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "chg_temp_george",
+                "chg_hum_george",
+                "chg_cond_george"
+            ]
+        ]
+    },
+    {
+        "id": "chg_temp_george",
+        "type": "change",
+        "z": "tab_clima_george",
+        "name": "Extraer tempc",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.tempc",
+                "tot": "msg"
+            }
+        ],
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "ui_gauge_temp_george"
+            ]
+        ]
+    },
+    {
+        "id": "chg_hum_george",
+        "type": "change",
+        "z": "tab_clima_george",
+        "name": "Extraer humidity",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.humidity",
+                "tot": "msg"
+            }
+        ],
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "ui_gauge_hum_george"
+            ]
+        ]
+    },
+    {
+        "id": "chg_cond_george",
+        "type": "change",
+        "z": "tab_clima_george",
+        "name": "Extraer detail",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.detail",
+                "tot": "msg"
+            }
+        ],
+        "x": 400,
+        "y": 240,
+        "wires": [
+            [
+                "ui_text_cond_george"
+            ]
+        ]
+    },
+    {
+        "id": "ui_gauge_temp_george",
+        "type": "ui-gauge",
+        "z": "tab_clima_george",
+        "name": "Temperatura Exterior",
+        "group": "grp_clima_george",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Temperatura Exterior",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-5",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "18",
+                "color": "#ffc800"
+            },
+            {
+                "from": "28",
+                "color": "#ea5353"
+            }
+        ],
+        "min": "-5",
+        "max": "40",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 660,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ui_gauge_hum_george",
+        "type": "ui-gauge",
+        "z": "tab_clima_george",
+        "name": "Humedad Exterior",
+        "group": "grp_clima_george",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Humedad Exterior",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "65",
+                "color": "#ffc800"
+            },
+            {
+                "from": "85",
+                "color": "#ea5353"
+            }
+        ],
+        "min": "0",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 650,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ui_text_cond_george",
+        "type": "ui-text",
+        "z": "tab_clima_george",
+        "group": "grp_clima_george",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "Condición Actual",
+        "label": "Condición actual:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "className": "",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "inj_hora_george",
+        "type": "inject",
+        "z": "tab_clima_george",
+        "name": "Cada 1s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "fn_hora_george"
+            ]
+        ]
+    },
+    {
+        "id": "fn_hora_george",
+        "type": "function",
+        "z": "tab_clima_george",
+        "name": "Hora España",
+        "func": "msg.payload = new Date().toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid' });\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 320,
+        "wires": [
+            [
+                "ui_text_hora_george"
+            ]
+        ]
+    },
+    {
+        "id": "ui_text_hora_george",
+        "type": "ui-text",
+        "z": "tab_clima_george",
+        "group": "grp_clima_george",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "Hora Local",
+        "label": "Hora Local:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "className": "",
+        "x": 630,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ui_drop_h",
+        "type": "ui-dropdown",
+        "z": "tab_act_g",
+        "group": "grp_act_g",
+        "name": "Selector Habitación",
+        "label": "Habitación:",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "Habitación 1",
+                "value": "hab1",
+                "type": "str"
+            },
+            {
+                "label": "Habitación 2",
+                "value": "hab2",
+                "type": "str"
+            },
+            {
+                "label": "Habitación 3",
+                "value": "hab3",
+                "type": "str"
+            }
+        ],
+        "topic": "sel",
+        "topicType": "str",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "fn_save_h"
+            ]
+        ]
+    },
+    {
+        "id": "fn_save_h",
+        "type": "function",
+        "z": "tab_act_g",
+        "name": "Guardar hab",
+        "func": "flow.set('hab_activa', msg.payload || 'hab1');\nreturn null;",
+        "outputs": 0,
+        "initialize": "flow.set('hab_activa', 'hab1');",
+        "x": 390,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "ui_sw_l",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "Luz",
+        "label": "Luz habitación",
+        "group": "grp_act_g",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "topic": "luz",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "ui_sw_v",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "Ventana",
+        "label": "Ventana",
+        "group": "grp_act_g",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "topic": "ventana",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ABIERTA",
+        "onvalueType": "str",
+        "offvalue": "CERRADA",
+        "offvalueType": "str",
+        "x": 140,
+        "y": 190,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "ui_sw_c",
+        "type": "ui-switch",
+        "z": "tab_act_g",
+        "name": "Calefacción",
+        "label": "Calefacción",
+        "group": "grp_act_g",
+        "order": 4,
+        "width": 3,
+        "height": 1,
+        "topic": "calefaccion",
+        "topicType": "str",
+        "layout": "row-spread",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "ui_drop_m",
+        "type": "ui-dropdown",
+        "z": "tab_act_g",
+        "group": "grp_act_g",
+        "name": "Modo",
+        "label": "Modo:",
+        "order": 5,
+        "width": 3,
+        "height": 1,
+        "options": [
+            {
+                "label": "AUTO",
+                "value": "AUTO",
+                "type": "str"
+            },
+            {
+                "label": "VENTILAR",
+                "value": "VENTILAR",
+                "type": "str"
+            },
+            {
+                "label": "CALEFACCIÓN",
+                "value": "CALEFACCION",
+                "type": "str"
+            }
+        ],
+        "topic": "modo",
+        "topicType": "str",
+        "x": 130,
+        "y": 290,
+        "wires": [
+            [
+                "fn_route_m"
+            ]
+        ]
+    },
+    {
+        "id": "fn_route_m",
+        "type": "function",
+        "z": "tab_act_g",
+        "name": "Enrutar MQTT",
+        "func": "const h = flow.get('hab_activa') || 'hab1';\nconst act = msg.topic;\nmsg.topic = `roomsenseg3/${h}/actuadores`;\nmsg.payload = { habitacion: h, actuador: act, valor: msg.payload };\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 210,
+        "wires": [
+            [
+                "mqtt_out_a"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_out_a",
+        "type": "mqtt out",
+        "z": "tab_act_g",
+        "name": "Publicar Orden",
+        "broker": "brk_emqx_g",
+        "x": 630,
+        "y": 210,
+        "wires": []
+    },
+    {
+        "id": "mqtt_in_a",
+        "type": "mqtt in",
+        "z": "tab_act_g",
+        "name": "Confirmación Nodo",
+        "topic": "roomsenseg3/+/actuadores",
+        "datatype": "json",
+        "broker": "brk_emqx_g",
+        "inputs": 0,
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "fn_fmt_a"
+            ]
+        ]
+    },
+    {
+        "id": "fn_fmt_a",
+        "type": "function",
+        "z": "tab_act_g",
+        "name": "Formatear",
+        "func": "msg.payload = `${msg.payload.habitacion.toUpperCase()} (${msg.payload.actuador}) -> ${msg.payload.valor}`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 360,
+        "wires": [
+            [
+                "ui_txt_a"
+            ]
+        ]
+    },
+    {
+        "id": "ui_txt_a",
+        "type": "ui-text",
+        "z": "tab_act_g",
+        "group": "grp_act_g",
+        "order": 6,
+        "width": 6,
+        "height": 1,
+        "name": "Última Orden",
+        "label": "Última orden MQTT:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 620,
+        "y": 360,
+        "wires": []
     }
 ]
