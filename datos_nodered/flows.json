@@ -15,6 +15,14 @@
         "info": ""
     },
     {
+        "id": "f26b5968e286f7c8",
+        "type": "tab",
+        "label": "P2 Nodo 1 Pantalla",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "brk_mosq",
         "type": "mqtt-broker",
         "name": "Mosquitto público",
@@ -82,94 +90,30 @@
         "breakpoints": [
             {
                 "name": "Default",
-                "px": 0,
-                "cols": 3
+                "px": "0",
+                "cols": "3"
             },
             {
                 "name": "Tablet",
-                "px": 576,
-                "cols": 6
+                "px": "576",
+                "cols": "6"
             },
             {
                 "name": "Small Desktop",
-                "px": 768,
-                "cols": 9
+                "px": "768",
+                "cols": "9"
             },
             {
                 "name": "Desktop",
-                "px": 1024,
-                "cols": 12
+                "px": "1024",
+                "cols": "12"
             }
         ],
         "tabs": [],
         "order": 2,
         "className": "",
-        "visible": false,
+        "visible": "false",
         "disabled": "false"
-    },
-    {
-        "id": "289b3c69b9ce44a2",
-        "type": "ui-group",
-        "name": "Habitación 1",
-        "page": "f891abb8ae5c90ba",
-        "width": 6,
-        "height": 1,
-        "order": 3,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default",
-        "keepLoaded": false,
-        "tab": ""
-    },
-    {
-        "id": "720521c9a6698f45",
-        "type": "ui-group",
-        "name": "Habitación 2",
-        "page": "f891abb8ae5c90ba",
-        "width": 6,
-        "height": 1,
-        "order": 1,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default",
-        "keepLoaded": false,
-        "tab": ""
-    },
-    {
-        "id": "5b5fb963d3f82b42",
-        "type": "ui-group",
-        "name": "Habitación 3",
-        "page": "f891abb8ae5c90ba",
-        "width": 6,
-        "height": 1,
-        "order": 4,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default",
-        "keepLoaded": false,
-        "tab": ""
-    },
-    {
-        "id": "7d7e809c58bfb9ce",
-        "type": "ui-group",
-        "name": "Históricos",
-        "page": "f891abb8ae5c90ba",
-        "width": 6,
-        "height": 1,
-        "order": 2,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default",
-        "keepLoaded": false,
-        "tab": ""
     },
     {
         "id": "f891abb8ae5c90ba",
@@ -207,6 +151,86 @@
         "className": "",
         "visible": "true",
         "disabled": "false"
+    },
+    {
+        "id": "289b3c69b9ce44a2",
+        "type": "ui-group",
+        "name": "Habitación 1",
+        "page": "f891abb8ae5c90ba",
+        "width": 6,
+        "height": 1,
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "720521c9a6698f45",
+        "type": "ui-group",
+        "name": "Habitación 2",
+        "page": "f891abb8ae5c90ba",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "5b5fb963d3f82b42",
+        "type": "ui-group",
+        "name": "Habitación 3",
+        "page": "f891abb8ae5c90ba",
+        "width": 6,
+        "height": 1,
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "7d7e809c58bfb9ce",
+        "type": "ui-group",
+        "name": "Históricos",
+        "page": "f891abb8ae5c90ba",
+        "width": 6,
+        "height": 1,
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "0616c9a6b962e627",
+        "type": "ui-group",
+        "name": "Nodo 1 - Pantalla",
+        "page": "f891abb8ae5c90ba",
+        "width": 6,
+        "height": 1,
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": false,
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
     },
     {
         "id": "951798625cc6df50",
@@ -306,7 +330,8 @@
             [
                 "3f2bf448063b23a6",
                 "ad7957d4c45d9044",
-                "f2f88a4a91b6477e"
+                "f2f88a4a91b6477e",
+                "bfcc80ad79676e15"
             ]
         ]
     },
@@ -1238,5 +1263,181 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "6b39961cc8ee84bc",
+        "type": "function",
+        "z": "255856d0d5ad7034",
+        "name": "Paginas pantalla hab1",
+        "func": "if (msg.topic.split('/')[1] !== 'hab1') return null;\nconst s = Object.assign(context.get('s') || {}, msg.payload);\ncontext.set('s', s);\nconst paginas = [\n    ['Temp', `${s.temperatura ?? '--'} C`],\n    ['Humedad', `${s.humedad ?? '--'} %`],\n    ['CO2 ppm', `${s.co2 ?? '--'}`],\n    ['Modo', `${s.modo ?? '--'}`]\n];\nconst i = (context.get('i') || 0) % paginas.length;\ncontext.set('i', i + 1);\nreturn { topic: 'roomsenseg3/hab1/actuadores/pantalla', payload: paginas[i].join('\\n') };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 920,
+        "wires": [
+            [
+                "0390bee89de56d2d"
+            ]
+        ]
+    },
+    {
+        "id": "bfcc80ad79676e15",
+        "type": "link out",
+        "z": "255856d0d5ad7034",
+        "name": "Sensores hacia pantalla",
+        "mode": "link",
+        "links": [
+            "e55e1a89a16512c0"
+        ],
+        "x": 285,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "0390bee89de56d2d",
+        "type": "mqtt out",
+        "z": "255856d0d5ad7034",
+        "name": "Enviar a Servidor",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "brk_mosq",
+        "x": 910,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "e55e1a89a16512c0",
+        "type": "link in",
+        "z": "255856d0d5ad7034",
+        "name": "Sensores hacia pantalla",
+        "links": [
+            "bfcc80ad79676e15"
+        ],
+        "x": 375,
+        "y": 920,
+        "wires": [
+            [
+                "6b39961cc8ee84bc"
+            ]
+        ]
+    },
+    {
+        "id": "9d3dbc831d589811",
+        "type": "mqtt in",
+        "z": "f26b5968e286f7c8",
+        "name": "Estado pantalla",
+        "topic": "roomsenseg3/nodos/pantalla/estado",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "brk_mosq",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 140,
+        "wires": [
+            [
+                "5e18884bd747621b"
+            ]
+        ]
+    },
+    {
+        "id": "5e18884bd747621b",
+        "type": "debug",
+        "z": "f26b5968e286f7c8",
+        "name": "Debug estado pantalla",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "237560066e4a6ea6",
+        "type": "ui-text-input",
+        "z": "f26b5968e286f7c8",
+        "group": "0616c9a6b962e627",
+        "name": "Entrada mensaje pantalla",
+        "label": "Mensaje (máx. 8 + 8, separa líneas con | )",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "text",
+        "tooltip": "",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": false,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "x": 210,
+        "y": 360,
+        "wires": [
+            [
+                "55e93658b9c5371f"
+            ]
+        ]
+    },
+    {
+        "id": "55e93658b9c5371f",
+        "type": "function",
+        "z": "f26b5968e286f7c8",
+        "name": "Formatear mensaje",
+        "func": "if (typeof msg.payload !== 'string') return null;\nreturn { topic: 'roomsenseg3/hab1/actuadores/pantalla', payload: msg.payload.replace('|', '\\n') };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 360,
+        "wires": [
+            [
+                "598ab6a7564dd3cb"
+            ]
+        ]
+    },
+    {
+        "id": "598ab6a7564dd3cb",
+        "type": "mqtt out",
+        "z": "f26b5968e286f7c8",
+        "name": "Enviar a pantalla",
+        "topic": "",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "brk_mosq",
+        "x": 730,
+        "y": 360,
+        "wires": []
     }
 ]
