@@ -1,0 +1,24 @@
+# Pick And Place List
+# Company=
+# Author=
+# eMail=
+#
+# Project=Untitled Sketch
+# Date=00:10:57
+# CreatedBy=Fritzing 1.0.4.2024-10-07.CD-2088-0-a8c6ef7c
+#
+#
+# Coordinates in mils, always center of component
+# Origin 0/0=Lower left corner of PCB
+# Rotation in degree (0-360, math. pos.)
+#
+RefDes,Description,Package,X,Y,Rotation,Side,Mount
+Description: resistance;capacitance;inductance;voltage;current;power;mpn;mn;
+R1,"220;;;;;;;;","2512 [SMD]",3027.18,2861.32,90,Top,SMT
+LED2,";;;;0.030A;;;;","5 mm [THT]",2554.39,2971.56,90,Top,THT
+S1,";;;;;;;;","",933.105,578.526,-90,Top,MANUAL
+A1,";;;;;;;;","",1248.05,2021.86,90,Top,MANUAL
+R2,"220;;;;;;;;","0603 [SMD]",2527.18,2038.09,90,Top,SMT
+Via1,";;;;;;;;","",1760.47,2346.89,0,Top,MANUAL
+SERVO1,";;;;;;;;","",727.181,1371.56,-90,Top,MANUAL
+LED1,";;;;0.030A;;;;","5 mm [THT]",2554.39,2371.56,90,Top,THT
